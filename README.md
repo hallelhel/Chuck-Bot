@@ -1,5 +1,5 @@
 ## Overview
-This Telegram bot fetches Chuck Norris jokes from the "101 Chuck Norris Jokes" website, translates them using the Azure Translator API, and runs on the Azure cloud platform [@ChuckBotbot](https://t.me/CuckBotbot).
+This Telegram bot fetches Chuck Norris jokes from the "101 Chuck Norris Jokes" website, translates them using the Azure Translator API, and runs on the Azure cloud platform [@ChuckBotbot](https://t.me/ChuckBotbot).
 
 ## Features
 - Fetch Chuck Norris jokes from the "101 Chuck Norris Jokes" website.
