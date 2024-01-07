@@ -3,7 +3,6 @@ const JOKES_URL = "https://parade.com/968666/parade/chuck-norris-jokes/"
 const puppeteer = require('puppeteer');
 const cheerio = require("cheerio");
 const axios = require("axios");
-const request = require('request');
 const ISO6391 = require("iso-639-1")
 
 const TextTranslationClient = require("@azure-rest/ai-translation-text").default
@@ -55,21 +54,21 @@ const extractJokes = ($) => {
       jokes.push(joke.text());
     });
     return jokes;
-  };
+};
   
   // Function to fetch jokes from the specified URL
-  const fetchJokes = async () => {
+const fetchJokes = async () => {
     try {
-      const response = await axios.get(JOKES_URL, { headers });
-      const html = response.data;
-      const $ = cheerio.load(html);
-  
-      return extractJokes($);
-    } catch (error) {
-      console.error("Error fetching jokes:", error);
-      return [];
+        const response = await axios.get(JOKES_URL, { headers });
+        const html = response.data;
+        const $ = cheerio.load(html);
+        return extractJokes($);
+    } 
+    catch (error) {
+        console.error("Error fetching jokes:", error);
+        return [];
     }
-  };
+};
 const getJoke = async (msg, number) => {
     let jokes = []
     try {
@@ -77,9 +76,10 @@ const getJoke = async (msg, number) => {
 
         // check valid number
         if (number < 1 || number > 101) {
+            const translatedMessage = await translateText("Please enter a number between 1 - 101", newLanguageCode)
             bot.sendMessage(
                 msg.chat.id,
-                "Please enter a number between 1 - 101"
+                translatedMessage
             )
             return
         }
@@ -91,41 +91,42 @@ const getJoke = async (msg, number) => {
 
         }
         else {
+            const noJokeMessage = await translateText("couldn't fetch your joke", newLanguageCode)
             bot.sendMessage(
                 msg.chat.id,
-                "couldn't fetch your joke"
+                noJokeMessage
             )
         }
     }
     catch (error) {
         console.error("Error", error)
-        bot.sendMessage(msg.chat.id, "Error translating")
+        const errorTranslating = await translateText("Error translating", newLanguageCode)
+        bot.sendMessage(
+            msg.chat.id, 
+            errorTranslating
+            )
     }
     finally {
         jokes.length = 0 
     }
 }
 
-
-// test Hi massage
-
 bot.on('polling_error', (error) => {
     console.error('Polling error:', error.message);
     // Handle the error and retry or take appropriate action
-  });
-  
-  bot.onText(/\/start/, (msg) => {
-    const chatId = msg.chat.id;
-    bot.sendMessage(chatId, 'Hello, welcome!');
-  });
-  
-bot.on('message', (msg) => {
-    var Hi = "hi";
-    if (msg.text.toString().toLowerCase().indexOf(Hi) === 0) {
-        bot.sendMessage(msg.chat.id,"Hello dear user");
-    }
-    
 });
+  
+bot.onText(/\/start/, (msg) => {
+    const chatId = msg.chat.id;
+    bot.sendMessage(
+        chatId, 
+        `To set your language, use:  
+            set language <Your Language>
+
+To get a joke, enter a number between 1 and 101:  
+            <Joke Number>`);
+});
+  
 bot.onText(/^\d+$/, async (msg) => {
     const number = parseInt(msg.text)
     await getJoke(msg, number)
