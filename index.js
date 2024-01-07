@@ -73,7 +73,6 @@ const getJoke = async (msg, number) => {
     let jokes = []
     try {
         jokes = await fetchJokes()
-
         // check valid number
         if (number < 1 || number > 101) {
             const translatedMessage = await translateText("Please enter a number between 1 - 101", newLanguageCode)
@@ -104,7 +103,7 @@ const getJoke = async (msg, number) => {
         bot.sendMessage(
             msg.chat.id, 
             errorTranslating
-            )
+        )
     }
     finally {
         jokes.length = 0 
@@ -126,8 +125,9 @@ bot.onText(/\/start/, (msg) => {
 To get a joke, enter a number between 1 and 101:  
             <Joke Number>`);
 });
-  
+// numeric
 bot.onText(/^\d+$/, async (msg) => {
+    newLanguageCode = 'en' //defult
     const number = parseInt(msg.text)
     await getJoke(msg, number)
 })
