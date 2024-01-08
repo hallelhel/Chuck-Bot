@@ -14,7 +14,20 @@ const key = process.env.KEY
 const endpoint = process.env.ENDPOINT
 const location = process.env.LOCATION
 
-const bot = new TelegramBot(token, {polling: true});
+// const bot = new TelegramBot(token, {polling: true});
+
+
+const azureAppServiceURL = 'https://101chucknorisjokes.azurewebsites.net';
+
+// Set up Telegram bot
+const bot = new TelegramBot(token, {
+  webHook: {
+    port: process.env.PORT || 3000, // Set the port for your webhook
+  },
+});
+
+// Set up Telegram webhook
+bot.setWebHook(`${azureAppServiceURL}/bot${token}`);
 
 const translateText = async (text, languageCode) => {
     const translateCredential = {
