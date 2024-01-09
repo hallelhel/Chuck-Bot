@@ -86,7 +86,7 @@ const getJoke = async (msg, number) => {
         const joke = jokes[number-1]
         if (joke) {
             const translated = await translateText(joke, newLanguageCode)
-            bot.sendMessage(msg.chat.id, `${number}. ${translated}`)
+            bot.sendMessage(msg.chat.id, `${translated}`)
 
         }
         else {
