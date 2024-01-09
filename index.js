@@ -16,7 +16,6 @@ const location = process.env.LOCATION
 
 const bot = new TelegramBot(token, {polling: true});
 
-console.log("strart")
 const translateText = async (text, languageCode) => {
     const translateCredential = {
         key: key,
@@ -117,6 +116,7 @@ bot.on('polling_error', (error) => {
 });
   
 bot.onText(/\/start/, (msg) => {
+    newLanguageCode = 'en' //defult
     const chatId = msg.chat.id;
     bot.sendMessage(
         chatId, 
@@ -128,7 +128,6 @@ To get a joke, enter a number between 1 and 101:
 });
 // numeric
 bot.onText(/^\d+$/, async (msg) => {
-    newLanguageCode = 'en' //defult
     const number = parseInt(msg.text)
     await getJoke(msg, number)
 })

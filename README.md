@@ -18,8 +18,12 @@ This Telegram bot fetches Chuck Norris jokes from the "101 Chuck Norris Jokes" w
 4. Set up environment variables:
    Create a .env file in the project root.
    Add the following variables:
+      
       TOKEN=your-telegram-bot-token
+      
       KEY=your-azure-translator-api-key
+      
       ENDPOINT=your-azure-translator-endpoint
+      
       LOCATION=your-azure-region
 5. Run the bot locally: npm start
